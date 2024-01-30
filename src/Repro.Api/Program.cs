@@ -20,6 +20,8 @@ public class Program
         builder.Host.UseWolverine(opts =>
         {
             opts.Policies.AutoApplyTransactions();
+
+            opts.OptimizeArtifactWorkflow();
         });
 
         builder.Services.AddEndpointsApiExplorer();
@@ -34,12 +36,14 @@ public class Program
                 opts.AutoCreateSchemaObjects = AutoCreate.All;
             }
 
-            opts.Projections.Snapshot<Todo>(SnapshotLifecycle.Inline, p => p.DeleteEvent<TodoDeleted>());
+            opts.Projections.LiveStreamAggregation<Todo>();
         });
 
         marten.UseLightweightSessions();
 
         marten.IntegrateWithWolverine().EventForwardingToWolverine();
+
+        marten.OptimizeArtifactWorkflow();
 
         var app = builder.Build();
 

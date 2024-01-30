@@ -11,10 +11,8 @@ namespace Repro.Api.Endpoints;
 
 public static class UpdateTodoEndpoint
 {
-    public static async Task<Todo?> Load(Guid todoId, IDocumentSession session)
-    {
-        return session.Load<Todo>(todoId);
-    }
+    public static Task<Todo?> Load(Guid todoId, IDocumentSession session)
+        => session.Events.AggregateStreamAsync<Todo>(todoId);
 
     [WolverinePost("/todos/{todoId}"), EmptyResponse]
     public static void Update([FromRoute] Guid todoId, UpdateTodoRequest request, [Required] Todo todo, IDocumentSession session)

@@ -1,4 +1,3 @@
-using Marten.Metadata;
 using Repro.Api.Domain.Events;
 
 namespace Repro.Api.Domain;
