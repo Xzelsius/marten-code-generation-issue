@@ -18,9 +18,9 @@ docker run --name wolverine-repro -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD
 5. Start the application
 6. Go to the Swagger UI
 7. Create a new Todo
-8. Copy the idea from the response of step 5.
+8. Copy the ID from the response of step 5.
 9. Update the existing Todo with a new description
-10. Now the breakpoint should be hit, but the Todo could not be loaded
+10. Now the breakpoint should be hit, but the Todo could not be loaded properly
 
 If we inspect the generated code, we can clearly see some fishy code like this
 ```
