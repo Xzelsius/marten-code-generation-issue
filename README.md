@@ -11,16 +11,32 @@ docker run --name wolverine-repro -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD
 
 ## Reproduction Steps
 
-1. Open command line /src/Repro.Api
+1. Open command line in `/src/Repro.Api` directory
 2. Run `dotnet run -- codegen write`
 3. Open the solution
 4. Set a breakpoint inside `UpdateTodoEndpoint.Update()`
 5. Start the application
-6. Go to the Swagger UI
+6. Go to the Swagger UI (http://localhost:5255/swagger)
 7. Create a new Todo
+
+   ```
+   PUT /todos
+   {
+      "description": "Foo"
+   }
+   ```
+
 8. Copy the ID from the response of step 5.
 9. Update the existing Todo with a new description
-10. Now the breakpoint should be hit, but the Todo could not be loaded properly
+
+   ```
+   POST /todos/{id}
+   {
+      "description": "Bar"
+   }
+   ```
+
+10. Now the breakpoint should be hit, but the Todo could not be loaded properly (description is missing)
 
 If we inspect the generated code, we can clearly see some fishy code like this
 ```
